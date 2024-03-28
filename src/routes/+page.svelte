@@ -1,25 +1,33 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
 
-  let searchParam = $state('');
-  let codes = $state([123]);
+  onMount(fetchBus);
 
-  if (browser && localStorage.getItem('codes') === null) {
-    JSON.parse(localStorage.getItem('codes'));
-  }
-  
-  $effect(() => {
-    if ($effect.active()) {
-      localStorage.setItem('codes', JSON.stringify(codes));
+  let searchParam = $state('');
+  let savedBusCodes: string[] = $state([]);
+
+  // Retrieve saved codes if stored in LocalStorage
+  if (browser) {
+    const localStorageBusCodes = localStorage.getItem('codes');
+    if (localStorageBusCodes !== null) {
+      savedBusCodes = JSON.parse(localStorageBusCodes);
     }
+  }
+
+  // Updates LocalStorage whenever saved codes are updated
+  $effect(() => {
+    localStorage.setItem('codes', JSON.stringify(savedBusCodes));
   });
   
-  const fetchBus = () => fetch('/api/bus', { method: 'POST' });
-  onMount(fetchBus);
+  // const fetchBus = () => fetch('/api/bus', { method: 'POST' });
+  function fetchBus() {
+    if (searchParam === '') return;
+    savedBusCodes.push(searchParam);
+  }
 </script>
 
-codes: {codes}
+codes: {savedBusCodes}
 <form method="POST">
     <input name="searchParam" type="text" bind:value={searchParam}>
 </form>
