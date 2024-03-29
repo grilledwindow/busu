@@ -20,7 +20,12 @@
     localStorage.setItem('codes', JSON.stringify(savedBusCodes));
   });
   
-  function fetchBus() { fetch('/api/bus', { method: 'POST' }) };
+  async function fetchBus() {
+    const res = await fetch('/api/bus');
+    const data = await res.json();
+    console.log(data);
+  }
+
   function saveBusCodes() {
     if (searchParam === '') return;
     savedBusCodes.push(searchParam);
