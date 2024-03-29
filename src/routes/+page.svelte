@@ -20,8 +20,8 @@
     localStorage.setItem('codes', JSON.stringify(savedBusCodes));
   });
   
-  // const fetchBus = () => fetch('/api/bus', { method: 'POST' });
-  function fetchBus() {
+  function fetchBus() { fetch('/api/bus', { method: 'POST' }) };
+  function saveBusCodes() {
     if (searchParam === '') return;
     savedBusCodes.push(searchParam);
   }
@@ -29,6 +29,7 @@
 
 codes: {savedBusCodes}
 <form method="POST">
-    <input name="searchParam" type="text" bind:value={searchParam}>
+  <input name="searchParam" type="text" bind:value={searchParam}>
 </form>
 <button on:click={fetchBus}>Bus</button>
+<button on:click={saveBusCodes}>Add</button>
