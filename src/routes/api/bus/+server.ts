@@ -23,15 +23,16 @@ interface BusService {
 export interface BusArrival {
   "odata.metadata": string;
   BusStopCode: string;
-  Services: BusService[];
+  Services: BusService[] | null;
 }
 
 export interface BusArrivalResponse extends Response {
   json: () => Promise<BusArrival>;
 }
 
-export const GET = (e): Promise<BusArrivalResponse> => {
-  return fetch('http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=83139', {
+export const GET = ({ url: { searchParams } }): Promise<BusArrivalResponse> => {
+  const code = searchParams.get('code');
+  return fetch('http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=' + code, {
     headers: { 'accountKey': DATAMALL_KEY }
   });
 }
