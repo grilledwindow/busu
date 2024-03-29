@@ -32,9 +32,10 @@
   }
 </script>
 
-codes: {savedBusCodes}
-<form method="POST">
-  <input name="searchParam" type="text" bind:value={searchParam}>
-</form>
-<button on:click={fetchBus}>Bus</button>
-<button on:click={saveBusCodes}>Add</button>
+<main class="max-w-[420px] h-[100vh] bg-white mx-auto">
+  <form method="POST">
+    <input name="searchParam" type="text" bind:value={searchParam}>
+  </form>
+  <button on:click={fetchBus}>Bus</button>
+  <button on:click={saveBusCodes}>Add</button>
+</main>
